@@ -6,7 +6,7 @@ import PokemonCard from "./body/PokemonCard";
 import PokemonForm from "./body/PokemonForm";
 import Swal from "sweetalert2";
 
-const API_URL = "http://localhost:5000/api/v1/my-pokemons";
+const API_URL = "http://localhost:5000/api/v1/entrenadores";
 
 interface Entrenador {
   _id: string;
@@ -87,7 +87,7 @@ function PokemonBody() {
       try {
         setLoadingOperation(true);
         const response = await axios.post(
-          "http://localhost:5000/api/v1/add-pokemon",
+          "http://localhost:5000/api/v1/add-entrenador",
           newEntrenador
         );
         if (response) {
@@ -136,7 +136,7 @@ function PokemonBody() {
       setLoadingOperation(true);
       try {
         const response = await axios.put(
-          `http://localhost:5000/api/v1/update-pokemon/${editingPokemon._id}`,
+          `http://localhost:5000/api/v1/update-entrenador/${editingPokemon._id}`,
           newEntrenador
         );
         fetchData()
@@ -165,7 +165,7 @@ function PokemonBody() {
 
   const handleDeletePokemon = async (id: string) => {
     try {
-      await axios.delete(`http://localhost:5000/api/v1/delete-pokemon/${id}`);
+      await axios.delete(`http://localhost:5000/api/v1/delete-entrenador/${id}`);
       fetchData();
     } catch (error) {
       console.error("Error deleting pokemon:", error);
