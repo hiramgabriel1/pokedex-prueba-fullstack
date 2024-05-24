@@ -7,27 +7,27 @@ import PokemonForm from "./body/PokemonForm";
 
 const API_URL = "http://localhost:5000/api/v1/my-pokemons";
 
-interface Pokemon {
+interface Entrenador {
   _id: string;
   name: string;
   lastName: string;
-  phoneNumber: string;
-  gymAwards: string
+  phoneNumber: Number;
+  gymAwards: string;
 }
 
 function PokemonBody() {
-  const [pokemons, setPokemons] = useState<Pokemon[]>([]);
-  const [newPokemon, setNewPokemon] = useState({
+  const [entrenadores, setEntrenador] = useState<Entrenador[]>([]);
+  const [newEntrenador, setNewEntrenador] = useState({
     name: "",
     lastName: "",
-    phoneNumber: "",
+    phoneNumber: 0,
     gymAwards: "",
   });
-  const [editingPokemon, setEditingPokemon] = useState<Pokemon | null>(null);
+  const [editingPokemon, setEditingPokemon] = useState<Entrenador | null>(null);
   const [nameError, setNameError] = useState<string>("");
   const [typeError, setTypeError] = useState<string>("");
   const [loading, setLoading] = useState(false);
-  const [loadingOperation, setLoadingOperation] = useState(false); // New state for specific operations
+  const [loadingOperation, setLoadingOperation] = useState(false);
 
   useEffect(() => {
     fetchData();
@@ -37,7 +37,7 @@ function PokemonBody() {
     try {
       setLoading(true);
       const response = await axios.get(API_URL);
-      setPokemons(response.data);
+      setEntrenador(response.data);
     } catch (error) {
       console.error("Error fetching data:", error);
     } finally {
@@ -59,27 +59,24 @@ function PokemonBody() {
         value.trim().length > maxLength ||
         !/^[a-zA-Z\s-]+$/.test(value.trim())
       ) {
-        if (fieldName === "name") {
+        if (fieldName === "name")
           setNameError(
             `Name must be between ${minLength} and ${maxLength} characters and contain only letters, spaces, or hyphens`
           );
-        } else {
-          setTypeError(
-            `Type must not exceed ${maxLength} characters and contain only letters, spaces, or hyphens`
-          );
-        }
+        setTypeError(
+          `Type must not exceed ${maxLength} characters and contain only letters, spaces, or hyphens`
+        );
+
         isValid = false;
       } else {
-        if (fieldName === "name") {
-          setNameError("");
-        } else {
-          setTypeError("");
-        }
+        if (fieldName === "name") setNameError("");
+
+        setTypeError("");
       }
     };
 
-    validateField(newPokemon.name, "name", 3, 19);
-    validateField(newPokemon.lastName, "lastName", 0, 30);
+    validateField(newEntrenador.name, "name", 3, 19);
+    validateField(newEntrenador.lastName, "lastName", 0, 30);
 
     return isValid;
   };
@@ -87,38 +84,48 @@ function PokemonBody() {
   const handleAddPokemon = async () => {
     if (validateInputs()) {
       try {
-        setLoadingOperation(true); // Set loading for the specific operation
+        setLoadingOperation(true);
         const response = await axios.post(
           "http://localhost:5000/api/v1/add-pokemon",
-          newPokemon
+          newEntrenador
         );
         if (response) {
           if (response.status === 204) {
             alert("Pokemon duplicate");
           } else {
-              // @ts-expect-error
-            setNewPokemon({ name: "", lastName: "" });
+            // @ts-expect-error
+            setNewPokemon({
+              name: "",
+              lastName: "",
+              phoneNumber: 0,
+              gymAwards: " ",
+            });
+
             fetchData();
           }
         }
       } catch (error) {
         console.error("Error adding pokemon:", error);
       } finally {
-        setLoadingOperation(false); // Reset loading after the operation
+        setLoadingOperation(false);
       }
     }
   };
 
-  const handleEditPokemon = (pokemon: Pokemon) => {
-    setEditingPokemon(pokemon);
-    // @ts-expect-error
-    setNewPokemon({ name: pokemon.name, lastName: pokemon.lastName});
+  const handleEditPokemon = (entrenador: Entrenador) => {
+    setEditingPokemon(entrenador);
+    setNewEntrenador({
+      name: entrenador.name,
+      lastName: entrenador.lastName,
+      // @ts-ignore
+      phoneNumber: entrenador.phoneNumber,
+      gymAwards: entrenador.gymAwards,
+    });
   };
 
   const handleCancelEdit = () => {
     setEditingPokemon(null);
-    // @ts-expect-error
-    setNewPokemon({ name: "", lastName: "" });
+    // setEntrenador({ name: "", lastName: "", phoneNumber: "", gymAwards: "" });
   };
 
   const handleUpdatePokemon = async () => {
@@ -127,7 +134,7 @@ function PokemonBody() {
       try {
         const response = await axios.put(
           `http://localhost:5000/api/v1/update-pokemon/${editingPokemon._id}`,
-          newPokemon
+          newEntrenador
         );
         if (response) {
           if (response.status === 204) {
@@ -161,23 +168,21 @@ function PokemonBody() {
         sx={{
           textAlign: "center",
           fontWeight: "bold",
-          fontSize: "24px",
+          fontSize: "34px",
           margin: { xs: "0", md: "1rem 0 1rem 0" },
         }}
       >
-        Pokemon CRUD
+        Entrenadores CRUD
       </Typography>
       <PokemonForm
-  // @ts-expect-error
-newPokemon={newPokemon}
+        newEntrenador={newEntrenador}
         nameError={nameError}
         typeError={typeError}
+        editingEntrenador={editingPokemon}
         // @ts-expect-error
-        editingPokemon={editingPokemon}
-        // @ts-expect-error
-        setNewPokemon={setNewPokemon}
-        handleUpdatePokemon={handleUpdatePokemon}
-        handleAddPokemon={handleAddPokemon}
+        setNewEntrenador={setNewEntrenador}
+        handleUpdateEntrenador={handleUpdatePokemon}
+        handleAddEntrenador={handleAddPokemon}
         handleCancelEdit={handleCancelEdit}
       />
       {loading || loadingOperation ? (
@@ -190,7 +195,7 @@ newPokemon={newPokemon}
         >
           <CircularProgress />
         </div>
-      ) : pokemons?.length > 0 ? (
+      ) : entrenadores?.length > 0 ? (
         <Box
           sx={{
             display: "grid",
@@ -199,26 +204,24 @@ newPokemon={newPokemon}
             width: "100%",
           }}
         >
-          {pokemons.map((pokemon) => (
-            <ListItem key={pokemon._id}>
+          {entrenadores.map((entrenador) => (
+            <ListItem key={entrenador._id}>
               <PokemonCard
-              // @ts-expect-error
-                pokemon={pokemon}
-              // @ts-expect-error
-                editingPokemon={editingPokemon}
-                handleUpdatePokemon={handleUpdatePokemon}
+                // @ts-ignore
+                entrenador={entrenador}
+                // @ts-ignore
+                editingEntrenador={editingPokemon}
+                handleUpdateEntrenador={handleUpdatePokemon}
                 handleCancelEdit={handleCancelEdit}
-              // @ts-expect-error
-
-                handleEditPokemon={handleEditPokemon}
-                handleDeletePokemon={handleDeletePokemon}
+                handleEditEntrenador={handleEditPokemon}
+                handleDeleteEntrenador={handleDeletePokemon}
               />
             </ListItem>
           ))}
         </Box>
       ) : (
         <p style={{ textAlign: "center", marginTop: "20px" }}>
-          No pokemons found.
+          No hay entrenadores en la lista.
         </p>
       )}
     </>

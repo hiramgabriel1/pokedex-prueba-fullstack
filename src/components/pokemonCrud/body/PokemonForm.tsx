@@ -1,15 +1,16 @@
 import React from "react";
 import { Box, TextField, Button } from "@mui/material";
 
-interface Pokemon {
+interface Entrenador {
   _id: string;
   name: string;
-  type: string;
-  imageUrl: string;
+  lastName: string;
+  phoneNumber: Number;
+  gymAwards: string;
 }
 
-interface PokemonFormProps {
-  newPokemon: {
+interface EntrenadorFormProps {
+  newEntrenador: {
     name: string;
     lastName: string;
     phoneNumber: Number;
@@ -17,28 +18,28 @@ interface PokemonFormProps {
   };
   nameError: string;
   typeError: string;
-  editingPokemon: Pokemon | null;
-  setNewPokemon: React.Dispatch<
+  editingPokemon: Entrenador | any;
+  setNewEntrenador: React.Dispatch<
     React.SetStateAction<{
       name: string;
       lastName: string;
-      phoneNumber: Number;
+      phoneNumber: Number | string;
       gymAwards: string;
     }>
   >;
-  handleUpdatePokemon: () => void;
-  handleAddPokemon: () => void;
+  handleUpdateEntrenador: () => void;
+  handleAddEntrenador: () => void;
   handleCancelEdit: () => void;
 }
 
-const PokemonForm: React.FC<PokemonFormProps> = ({
-  newPokemon,
+const EntrenadorForm: React.FC<EntrenadorFormProps> = ({
+  newEntrenador,
   nameError,
   typeError,
   editingPokemon,
-  setNewPokemon,
-  handleUpdatePokemon,
-  handleAddPokemon,
+  setNewEntrenador,
+  handleUpdateEntrenador,
+  handleAddEntrenador,
   handleCancelEdit,
 }) => {
   return (
@@ -46,37 +47,61 @@ const PokemonForm: React.FC<PokemonFormProps> = ({
       <Box sx={{ display: "flex", justifyContent: "center" }}>
         <TextField
           sx={{ margin: "5px", maxWidth: "10rem" }}
-          label="Name"
+          label="Nombre"
           variant="outlined"
-          value={newPokemon.name}
+          value={newEntrenador.name}
           onChange={(e) =>
-            setNewPokemon({ ...newPokemon, name: e.target.value })
+            setNewEntrenador({ ...newEntrenador, name: e.target.value })
           }
           error={!!nameError}
           helperText={nameError}
         />
         <TextField
           sx={{ margin: "5px", maxWidth: "10rem" }}
-          label="Type"
+          label="Apellido"
           variant="outlined"
-          value={newPokemon.name}
+          value={newEntrenador.lastName}
           onChange={(e) =>
-            setNewPokemon({ ...newPokemon, name: e.target.value })
+            setNewEntrenador({ ...newEntrenador, lastName: e.target.value })
+          }
+          error={!!nameError}
+          helperText={nameError}
+        />
+        <TextField
+          sx={{ margin: "5px", maxWidth: "10rem" }}
+          label="Numero de celular"
+          variant="outlined"
+          value={newEntrenador.phoneNumber}
+          onChange={(e) =>
+            setNewEntrenador({ ...newEntrenador, phoneNumber: e.target.value })
+          }
+          error={!!nameError}
+          helperText={nameError}
+        />
+        <TextField
+          sx={{ margin: "5px", maxWidth: "10rem" }}
+          label="Gym Medallas"
+          variant="outlined"
+          value={newEntrenador.gymAwards}
+          onChange={(e) =>
+            setNewEntrenador({ ...newEntrenador, gymAwards: e.target.value })
           }
           error={!!typeError}
           helperText={typeError}
         />
       </Box>
+      <br />
+
       <Box sx={{ display: "flex", justifyContent: "center" }}>
         {editingPokemon ? (
           <>
             <Button
               sx={{ margin: "5px" }}
-              onClick={handleUpdatePokemon}
+              onClick={handleUpdateEntrenador}
               variant="contained"
-              color="primary"
+              color="secondary"
             >
-              Update
+              Actualizar
             </Button>
             <Button
               sx={{ margin: "5px" }}
@@ -84,17 +109,19 @@ const PokemonForm: React.FC<PokemonFormProps> = ({
               variant="contained"
               color="warning"
             >
-              Cancel
+              Cancelar
             </Button>
           </>
         ) : (
           <Button
             sx={{ margin: "5px" }}
-            onClick={editingPokemon ? handleUpdatePokemon : handleAddPokemon}
+            onClick={
+              editingPokemon ? handleUpdateEntrenador : handleAddEntrenador
+            }
             variant="contained"
-            color="primary"
+            color="warning"
           >
-            {editingPokemon ? "Update Pokemon" : "Add Pokemon"}
+            {editingPokemon ? "Actualizar entrenador" : "Crear entrenador"}
           </Button>
         )}
       </Box>
@@ -102,5 +129,4 @@ const PokemonForm: React.FC<PokemonFormProps> = ({
   );
 };
 
-export default PokemonForm;
-
+export default EntrenadorForm;

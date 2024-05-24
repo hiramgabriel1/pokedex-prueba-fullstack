@@ -1,30 +1,39 @@
 import React from "react";
-import { Card, CardContent, CardActions, Button, ListItemText } from "@mui/material";
+import {
+  Card,
+  CardContent,
+  CardActions,
+  Button,
+  ListItemText,
+} from "@mui/material";
 
-interface Pokemon {
-    _id: string;
-    name: string;
-    type: string;
-    imageUrl: string;
-  }
+interface Entrenador {
+  _id: string;
+  name: string;
+  lastName: string;
+  phoneNumber: number;
+  gymAwards: string;
+}
 
 interface PokemonCardProps {
-  pokemon: Pokemon; // Assuming Pokemon is defined in PokemonCRUD.tsx
-  editingPokemon: Pokemon | null;
-  handleUpdatePokemon: () => void;
+  entrenador: Entrenador; 
+  editingEntrenador: Entrenador | null;
+  handleUpdateEntrenador: () => void;
   handleCancelEdit: () => void;
-  handleEditPokemon: (pokemon: Pokemon) => void;
-  handleDeletePokemon: (id: string) => void;
+  handleEditEntrenador: (entrenador: Entrenador) => void;
+  handleDeleteEntrenador: (id: string) => void;
 }
 
 const PokemonCard: React.FC<PokemonCardProps> = ({
-  pokemon,
-  editingPokemon,
-  handleUpdatePokemon,
+  entrenador,
+  editingEntrenador,
+  handleUpdateEntrenador,
   handleCancelEdit,
-  handleEditPokemon,
-  handleDeletePokemon,
+  handleEditEntrenador,
+  handleDeleteEntrenador,
 }) => {
+  const isEditing = editingEntrenador?._id === entrenador._id;
+
   return (
     <Card
       sx={{
@@ -36,32 +45,61 @@ const PokemonCard: React.FC<PokemonCardProps> = ({
         "&:hover": {
           border: "2px solid #2196F3",
         },
-        backgroundColor: editingPokemon === pokemon ? "" : "#F3F3F3",
+        backgroundColor: isEditing ? "#E3F2FD" : "#F3F3F3",
         minWidth: "150px",
       }}
     >
-      <img src={pokemon.imageUrl || "/pokemon/missing.jpeg"} alt="" />
       <CardContent>
-        <ListItemText sx={{ textTransform: "capitalize" }} primary={`Name: ${pokemon.name}`} />
-        <ListItemText sx={{ textTransform: "capitalize" }} primary={`Type: ${pokemon.type}`} />
+        <ListItemText
+          sx={{ textTransform: "capitalize" }}
+          primary={`Name: ${entrenador.name}`}
+        />
+        <ListItemText
+          sx={{ textTransform: "capitalize" }}
+          primary={`Lastname: ${entrenador.lastName}`}
+        />
+        <ListItemText
+          sx={{ textTransform: "capitalize" }}
+          primary={`Phone Number: ${entrenador.phoneNumber}`}
+        />
+        <ListItemText
+          sx={{ textTransform: "capitalize" }}
+          primary={`Gym Awards: ${entrenador.gymAwards}`}
+        />
       </CardContent>
       <CardActions>
-        {editingPokemon === pokemon ? (
+        {isEditing ? (
           <>
-            <Button onClick={handleUpdatePokemon} variant="contained" color="primary">
-              Update
+            <Button
+              onClick={handleUpdateEntrenador}
+              variant="contained"
+              color="primary"
+            >
+              Actualizar
             </Button>
-            <Button onClick={handleCancelEdit} variant="contained" color="warning">
-              Cancel
+            <Button
+              onClick={handleCancelEdit}
+              variant="contained"
+              color="warning"
+            >
+              Cancelar
             </Button>
           </>
         ) : (
           <>
-            <Button onClick={() => handleEditPokemon(pokemon)} variant="contained" color="primary">
-              Edit
+            <Button
+              onClick={() => handleEditEntrenador(entrenador)}
+              variant="contained"
+              color="primary"
+            >
+              Editar
             </Button>
-            <Button onClick={() => handleDeletePokemon(pokemon._id)} variant="contained" color="error">
-              Delete
+            <Button
+              onClick={() => handleDeleteEntrenador(entrenador._id)}
+              variant="contained"
+              color="error"
+            >
+              Eliminar
             </Button>
           </>
         )}
