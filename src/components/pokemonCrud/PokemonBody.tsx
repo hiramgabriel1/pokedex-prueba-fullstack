@@ -129,7 +129,6 @@ function PokemonBody() {
 
   const handleCancelEdit = () => {
     setEditingPokemon(null);
-    // setEntrenador({ name: "", lastName: "", phoneNumber: "", gymAwards: "" });
   };
 
   const handleUpdatePokemon = async () => {

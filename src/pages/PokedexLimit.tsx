@@ -6,7 +6,6 @@ function PokedexLimit() {
     <>
       <Header></Header>
       <PokedexLimitBody></PokedexLimitBody>
-      {/* <Footer></Footer> */}
     </>
   );
 }

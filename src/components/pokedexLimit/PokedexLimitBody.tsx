@@ -43,7 +43,7 @@ function PokedexLimitBody() {
         const data = response.data;
         setPokemons(data.results);
         setTotalPages(Math.ceil(data.count / limit));
-        setErrorMessage(""); // Clear the error message when data is successfully fetched
+        setErrorMessage("");
       }
     } catch (error) {
       setErrorMessage("No pokemons found.");
@@ -126,4 +126,3 @@ function PokedexLimitBody() {
 }
 
 export default PokedexLimitBody;
-  
