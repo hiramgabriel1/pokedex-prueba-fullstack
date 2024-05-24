@@ -4,7 +4,7 @@ import HomeBody from "../components/home/HomeBody";
 function Home() {
   return (
     <>
-      <Header></Header>
+      {/* <Header></Header> */}
       <HomeBody></HomeBody>
     </>
   );

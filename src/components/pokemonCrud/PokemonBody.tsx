@@ -4,6 +4,7 @@ import { Box, ListItem, CircularProgress, Typography } from "@mui/material";
 
 import PokemonCard from "./body/PokemonCard";
 import PokemonForm from "./body/PokemonForm";
+import Swal from "sweetalert2";
 
 const API_URL = "http://localhost:5000/api/v1/my-pokemons";
 
@@ -91,18 +92,21 @@ function PokemonBody() {
         );
         if (response) {
           if (response.status === 204) {
-            alert("Pokemon duplicate");
-          } else {
-            // @ts-expect-error
-            setNewPokemon({
-              name: "",
-              lastName: "",
-              phoneNumber: 0,
-              gymAwards: " ",
+            Swal.fire({
+              icon: "error",
+              title: "entrenador ya existe",
             });
-
-            fetchData();
+            return;
           }
+          // @ts-expect-error
+          setNewPokemon({
+            name: "",
+            lastName: "",
+            phoneNumber: 0,
+            gymAwards: " ",
+          });
+
+          fetchData();
         }
       } catch (error) {
         console.error("Error adding pokemon:", error);
@@ -136,9 +140,15 @@ function PokemonBody() {
           `http://localhost:5000/api/v1/update-pokemon/${editingPokemon._id}`,
           newEntrenador
         );
+        fetchData()
+
         if (response) {
           if (response.status === 204) {
-            alert("Pokemon duplicate");
+            Swal.fire({
+              icon: "error",
+              title: "entrenador ya existe",
+            });
+            return;
           } else {
             setEditingPokemon(null);
             // @ts-expect-error

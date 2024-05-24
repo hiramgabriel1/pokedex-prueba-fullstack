@@ -1,24 +1,28 @@
 import React from "react";
-import { Box, Card, CardActions, CardContent, Button, Typography, CardMedia } from "@mui/material";
+import {
+  Box,
+  Card,
+  CardActions,
+  CardContent,
+  Button,
+  Typography,
+} from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
 const cardData = [
   {
     title: "Entrenadores CRUD",
-    description: "Basic page for creating, reading, updating and deleting Pokémon.",
-    image: "/home/pokemon.png",
+    description: "Crud de entrenadores",
     route: "/pokemon",
   },
   {
     title: "Lista Pokedex",
-    description: "Simple Pokedex with implementation of requests and search.",
-    image: "/home/pokedex.png",
+    description: "Encuentra cualquier pokemon y su informacion.",
     route: "/pokedex",
   },
   {
     title: "Descargar PDF",
-    description: "A simple pokedex interface with the option to download pokemons.",
-    image: "/home/pokedexToPdf.png",
+    description: "Descarga la informacion de los pokemones",
     route: "/pokemon/pdf",
   },
 ];
@@ -31,19 +35,32 @@ function HomeBody() {
   };
 
   return (
-    <Box sx={{ display: "flex", justifyContent: "space-evenly", alignItems: "center", width: "100vw",
-     height: {xs: "80vh", sm: "85vh", md: "80vh"}, 
-     flexDirection: {xs: "column", lg: "row"},
-     flexWrap: {md: "wrap", lg: "unset"}
-     }}>
+    <Box
+      sx={{
+        display: "flex",
+        justifyContent: "space-evenly",
+        alignItems: "center",
+        width: "100vw",
+        height: { xs: "80vh", sm: "85vh", md: "80vh" },
+        flexDirection: { xs: "column", lg: "row" },
+        flexWrap: { md: "wrap", lg: "unset" },
+      }}
+    >
       {cardData.map((card, index) => (
-        <Card key={index} sx={{ 
-          maxWidth: {sm: "350px", md: "300px", lg: "350px",xl: "400px"}, 
-          maxHeight: {xs: "250px", sm: "275px",md: "400px"}
-          }}>
-          <CardMedia sx={{ height: {xs: 0, sm: 125, md: 200} }} image={card.image}></CardMedia>
+        <Card
+          key={index}
+          sx={{
+            maxWidth: { sm: "500px", md: "300px", lg: "350px", xl: "400px" },
+            maxHeight: { xs: "250px", sm: "275px", md: "400px" },
+          }}
+        >
           <CardContent>
-            <Typography sx={{ textAlign: "center" }} gutterBottom variant="h5" component="div">
+            <Typography
+              sx={{ textAlign: "center" }}
+              gutterBottom
+              variant="h5"
+              component="div"
+            >
               {card.title}
             </Typography>
             <Typography variant="body2" color="text.secondary">
@@ -51,7 +68,9 @@ function HomeBody() {
             </Typography>
           </CardContent>
           <CardActions sx={{ display: "flex", justifyContent: "center" }}>
-            <Button size="small" onClick={() => handleClick(card.route)}>Click here</Button>
+            <Button size="small" onClick={() => handleClick(card.route)}>
+              Ver ahora
+            </Button>
           </CardActions>
         </Card>
       ))}
