@@ -1,5 +1,3 @@
-This project is the user-facing component of our MERN (MongoDB, Express.js, React, Node.js) project, designed to deliver a seamless and intuitive experience. This frontend module incorporates robust features, including CRUD operations, MongoDB integration, Mongoose models, pagination for efficient data navigation, and dynamic PDF creation. It serves as the visual gateway for users to interact with and manage the diverse functionalities offered by the Bestiary application.
-
 ## Project Requirements
 
 Before running the project, ensure your system meets the following requirements:
@@ -15,8 +13,8 @@ Before running the project, ensure your system meets the following requirements:
 
 Follow these steps to install and configure the project:
 
-1. Clone the repository: `git clone https://github.com/pokedex-bestiarius.git`
-2. Enter the project directory: `cd pokedex-bestiarius`
+1. Clone the repository: `git clone https://github.com/itsrusty/pokedex-prueba-fullstack.git`
+2. Enter the project directory: `cd pokedex-prueba-fullstack`
 3. Install dependencies: `pnpm install`
 4. Modify the file with the IP and port of the backend: `src/globalVariables.tsx`
 
