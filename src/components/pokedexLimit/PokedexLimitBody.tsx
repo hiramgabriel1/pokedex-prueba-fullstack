@@ -23,25 +23,26 @@ function PokedexLimitBody() {
   const [totalPages, setTotalPages] = useState(1);
   const [errorMessage, setErrorMessage] = useState("");
   const [nameError, setNameError] = useState("");
-  const [loading, setLoading] = useState(false); 
+  const [loading, setLoading] = useState(false);
 
   const limit = 18;
 
   const fetchPokemons = useCallback(async () => {
     try {
       setLoading(true);
+      const offset = (currentPage - 1) * limit;
       const response = await axios.get(
-        `${API_URL}?page=${(currentPage - 1) * limit}&limit=${limit}${
+        `${API_URL}?offset=${offset}&limit=${limit}${
           query ? `&search=${query}` : ""
         }`
       );
-      setPokemons(response.data.results);
+
       if (response.status === 204) {
         setErrorMessage("Non-pageable page.");
       } else {
-        setTotalPages((prevTotalPages) =>
-          Math.ceil(response.data.count / limit)
-        );
+        const data = response.data;
+        setPokemons(data.results);
+        setTotalPages(Math.ceil(data.count / limit));
         setErrorMessage(""); // Clear the error message when data is successfully fetched
       }
     } catch (error) {
@@ -50,14 +51,11 @@ function PokedexLimitBody() {
     } finally {
       setLoading(false);
     }
-  }, [currentPage, query, setPokemons, setTotalPages, setErrorMessage]);
+  }, [currentPage, query]);
 
   useEffect(() => {
-    const fetchData = async () => {
-      await fetchPokemons();
-    };
-    fetchData();
-  }, [currentPage, fetchPokemons]);
+    fetchPokemons();
+  }, [currentPage, query, fetchPokemons]);
 
   const handlePageChange = (
     event: React.ChangeEvent<unknown>,
@@ -69,7 +67,7 @@ function PokedexLimitBody() {
   const handleTextChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const text = event.target.value;
     if (text.length < 18) {
-      setQuery(event.target.value);
+      setQuery(text);
       setNameError("");
       setCurrentPage(1);
     } else {
@@ -128,3 +126,4 @@ function PokedexLimitBody() {
 }
 
 export default PokedexLimitBody;
+  

@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
-import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 import Menu from "@mui/material/Menu";
@@ -10,10 +9,10 @@ import MenuItem from "@mui/material/MenuItem";
 import { useNavigate } from "react-router-dom";
 
 const menuItems = [
-  { label: "Home", onClick: "/" },
-  { label: "Pokemon", onClick: "/pokemon" },
-  { label: "Pokedex", onClick: "/pokedex" },
-  { label: "Pokemon to pdf", onClick: "/pokemon/pdf" },
+  { label: "Inicio", onClick: "/" },
+  { label: "CRUD", onClick: "/pokemon" },
+  { label: "Pokemones", onClick: "/pokedex" },
+  { label: "Pokemon a pdf", onClick: "/pokemon/pdf" },
 ];
 
 export default function Header() {
