@@ -90,6 +90,8 @@ function PokemonBody() {
           "http://localhost:5000/api/v1/add-entrenador",
           newEntrenador
         );
+        fetchData();
+
         if (response) {
           if (response.status === 204) {
             Swal.fire({
@@ -105,8 +107,6 @@ function PokemonBody() {
             phoneNumber: 0,
             gymAwards: " ",
           });
-
-          fetchData();
         }
       } catch (error) {
         console.error("Error adding pokemon:", error);
@@ -139,7 +139,7 @@ function PokemonBody() {
           `http://localhost:5000/api/v1/update-entrenador/${editingPokemon._id}`,
           newEntrenador
         );
-        fetchData()
+        fetchData();
 
         if (response) {
           if (response.status === 204) {
@@ -165,7 +165,9 @@ function PokemonBody() {
 
   const handleDeletePokemon = async (id: string) => {
     try {
-      await axios.delete(`http://localhost:5000/api/v1/delete-entrenador/${id}`);
+      await axios.delete(
+        `http://localhost:5000/api/v1/delete-entrenador/${id}`
+      );
       fetchData();
     } catch (error) {
       console.error("Error deleting pokemon:", error);
